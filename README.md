@@ -1,13 +1,12 @@
-# 🎯 Seeker Application - Job Platform
+# Seeker Application - Job Platform
 
 A full-stack job seeker platform built with Node.js and vanilla JavaScript. This platform connects unemployed individuals with employers, allowing seamless job searching, application management, and recruitment processes.
-
-![Node.js](https://img.shields.io/badge/Node.js-18+-green)
-![Express](https://img.shields.io/badge/Express-4.18+-blue)
-![License](https://img.shields.io/badge/License-ISC-yellow)
-
----
-
+link to my srs document (https://docs.google.com/document/d/1WPUcMTcOvXrdnm6uKF9n2TEnv-YvLBD_2GILYhF0Rk4/edit?tab=t.0
+)
+link to my video on how the app runings (https://youtu.be/ODrcevzM6ho
+)
+my project url link (https://the-seeker-platform.onrender.com
+)
 ## 📋 Table of Contents
 
 - [Features](#-features)
@@ -22,7 +21,7 @@ A full-stack job seeker platform built with Node.js and vanilla JavaScript. This
 
 ---
 
-## ✨ Features
+##  Features
 
 ### For Job Seekers
 - ✅ User registration and secure login
@@ -68,7 +67,7 @@ A full-stack job seeker platform built with Node.js and vanilla JavaScript. This
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 - Node.js (v14 or higher)
@@ -110,7 +109,7 @@ A full-stack job seeker platform built with Node.js and vanilla JavaScript. This
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 seeker-application/
@@ -167,7 +166,7 @@ seeker-application/
 
 ---
 
-## 📖 Usage Guide
+##  Usage Guide
 
 ### 1. Register as a Job Seeker
 1. Click "Register" on the homepage
@@ -210,7 +209,7 @@ seeker-application/
 
 ---
 
-## 🔒 Security
+## Security
 
 - ✅ Passwords are hashed using `bcryptjs` with salt rounds
 - ✅ JWT tokens are used for secure authentication
@@ -229,7 +228,7 @@ seeker-application/
 
 ---
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - [ ] Database integration (MongoDB, PostgreSQL, etc.)
 - [ ] File upload for resumes and documents
@@ -247,7 +246,7 @@ seeker-application/
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -257,17 +256,13 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
----
-
-## 📝 License
-
-This project is licensed under the ISC License.
 
 ---
 
-## 👤 Author
+##  Author
+chiagbanweghi moses peter
 
-Built with ❤️ for connecting job seekers with opportunities.
+Built for connecting job seekers with opportunities.
 
 ---
 
