@@ -1,12 +1,20 @@
 # Seeker Application - Job Platform
 
 A full-stack job seeker platform built with Node.js and vanilla JavaScript. This platform connects unemployed individuals with employers, allowing seamless job searching, application management, and recruitment processes.
+
+
 link to my srs document (https://docs.google.com/document/d/1WPUcMTcOvXrdnm6uKF9n2TEnv-YvLBD_2GILYhF0Rk4/edit?tab=t.0
 )
+
+
 link to my video on how the app runings (https://youtu.be/ODrcevzM6ho
 )
+
+
 my project url link (https://the-seeker-platform.onrender.com
 )
+
+
 ## 📋 Table of Contents
 
 - [Features](#-features)
