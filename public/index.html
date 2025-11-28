@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seeker - Job Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <h1>Seeker</h1>
+                </div>
+                <div class="nav-links" id="navLinks">
+                    <a href="#" id="homeLink" class="nav-link">Home</a>
+                    <a href="#" id="jobsLink" class="nav-link" style="display: none;">Browse Jobs</a>
+                    <a href="#" id="postJobLink" class="nav-link" style="display: none;">Post Job</a>
+                    <a href="#" id="myJobsLink" class="nav-link" style="display: none;">My Jobs</a>
+                    <a href="#" id="myApplicationsLink" class="nav-link" style="display: none;">My Applications</a>
+                    <a href="#" id="adminDashboardLink" class="nav-link" style="display: none;">Admin Dashboard</a>
+                    <a href="#" id="profileLink" class="nav-link" style="display: none;">Profile</a>
+                    <a href="#" id="loginLink" class="nav-link">Login</a>
+                    <a href="#" id="registerLink" class="nav-link">Register</a>
+                    <a href="#" id="logoutLink" class="nav-link" style="display: none;">Logout</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Page -->
+            <div id="homePage" class="page" style="padding: 0;">
+                <!-- Guest View (Not Logged In) -->
+                <div id="homeGuestView" style="width: 100%;">
+                    <div class="hero">
+                        <h1>Find Your Dream Job</h1>
+                        <p>Connect with employers and discover opportunities that match your skills</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" onclick="showRegister()">Get Started</button>
+                            <button class="btn btn-secondary" onclick="showLogin()">Login</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Logged In Dashboard View -->
+                <div id="homeDashboardView" class="container" style="display: none;">
+                    <!-- Admin Dashboard on Home -->
+                    <div id="homeAdminDashboard" style="display: none;">
+                        <div class="dashboard-header">
+                            <h2>Welcome back, <span id="dashboardUserName"></span>!</h2>
+                            <p>Admin Dashboard</p>
+                        </div>
+                        
+                        <!-- Statistics Cards -->
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <h3 id="homeAdminTotalJobs">0</h3>
+                                <p>Total Jobs Posted</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="homeAdminTotalApplications">0</h3>
+                                <p>Total Applications</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="homeAdminTotalEmployers">0</h3>
+                                <p>Total Employers</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="homeAdminTotalJobSeekers">0</h3>
+                                <p>Total Job Seekers</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Jobs Table -->
+                        <div class="dashboard-section">
+                            <h3>All Job Postings</h3>
+                            <div class="table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Job Title</th>
+                                            <th>Company</th>
+                                            <th>Location</th>
+                                            <th>Employer</th>
+                                            <th>Type</th>
+                                            <th>Status</th>
+                                            <th>Applications</th>
+                                            <th>Pending</th>
+                                            <th>Accepted</th>
+                                            <th>Posted Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="homeAdminJobsTable">
+                                        <tr>
+                                            <td colspan="10" style="text-align: center; padding: 2rem;">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Job Seeker Dashboard -->
+                    <div id="homeJobSeekerDashboard" style="display: none;">
+                        <div class="dashboard-header">
+                            <h2>Welcome back, <span id="dashboardUserName"></span>!</h2>
+                            <p id="dashboardUserType"></p>
+                        </div>
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <h3 id="totalApplications">0</h3>
+                                <p>Total Applications</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="pendingApplications">0</h3>
+                                <p>Pending</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="acceptedApplications">0</h3>
+                                <p>Accepted</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-primary" onclick="loadJobSeekerDashboard()">Browse All Jobs</button>
+                            <button class="btn btn-secondary" onclick="loadMyApplications()">View My Applications</button>
+                        </div>
+                        <div class="dashboard-section">
+                            <h3>Recent Applications</h3>
+                            <div id="recentApplications" class="applications-list"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Employer Dashboard -->
+                    <div id="homeEmployerDashboard" style="display: none;">
+                        <div class="dashboard-header">
+                            <h2>Welcome back, <span id="dashboardUserName"></span>!</h2>
+                            <p id="dashboardUserType"></p>
+                        </div>
+                        <div class="dashboard-stats">
+                            <div class="stat-card">
+                                <h3 id="totalJobs">0</h3>
+                                <p>Total Jobs Posted</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="totalApplicationsReceived">0</h3>
+                                <p>Applications Received</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="pendingReviews">0</h3>
+                                <p>Pending Reviews</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-actions">
+                            <button class="btn btn-primary" onclick="showPostJobForm()">Post New Job</button>
+                            <button class="btn btn-secondary" onclick="loadEmployerDashboard()">View All Jobs</button>
+                        </div>
+                        <div class="dashboard-section">
+                            <h3>Recent Job Postings</h3>
+                            <div id="recentJobs" class="jobs-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Page -->
+            <div id="loginPage" class="page" style="display: none;">
+                <div class="auth-container">
+                    <h2>Login</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                        <p class="auth-switch">Don't have an account? <a href="#" onclick="showRegister(); return false;">Register</a></p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Register Page -->
+            <div id="registerPage" class="page" style="display: none;">
+                <div class="auth-container">
+                    <h2>Register</h2>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="registerName">Full Name</label>
+                            <input type="text" id="registerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email</label>
+                            <input type="email" id="registerEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" id="registerPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerConfirmPassword">Confirm Password</label>
+                            <input type="password" id="registerConfirmPassword" required>
+                            <small id="passwordMatchError" class="error-message" style="display: none;"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPhone">Phone</label>
+                            <input type="tel" id="registerPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerLocation">Location/Address</label>
+                            <input type="text" id="registerLocation" placeholder="City, State/Country" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userType">I am a:</label>
+                            <select id="userType" required>
+                                <option value="">Select...</option>
+                                <option value="jobseeker">Job Seeker</option>
+                                <option value="employer">Employer/Business Owner</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Job Seeker Specific Fields -->
+                        <div id="jobSeekerFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="registerEducation">Education Level</label>
+                                <select id="registerEducation">
+                                    <option value="">Select...</option>
+                                    <option value="High School">High School</option>
+                                    <option value="Associate Degree">Associate Degree</option>
+                                    <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                    <option value="Master's Degree">Master's Degree</option>
+                                    <option value="PhD">PhD</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerExperience">Years of Experience</label>
+                                <select id="registerExperience">
+                                    <option value="">Select...</option>
+                                    <option value="0-1">0-1 years</option>
+                                    <option value="2-3">2-3 years</option>
+                                    <option value="4-5">4-5 years</option>
+                                    <option value="6-10">6-10 years</option>
+                                    <option value="10+">10+ years</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerSkills">Skills (comma-separated)</label>
+                                <input type="text" id="registerSkills" placeholder="e.g., JavaScript, Python, Project Management">
+                            </div>
+                            <div class="form-group">
+                                <label for="registerEmploymentStatus">Current Employment Status</label>
+                                <select id="registerEmploymentStatus">
+                                    <option value="">Select...</option>
+                                    <option value="Unemployed">Unemployed</option>
+                                    <option value="Employed - Looking">Employed - Looking for opportunities</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Freelancer">Freelancer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerResume">Resume/CV Link (Optional)</label>
+                                <input type="url" id="registerResume" placeholder="https://...">
+                            </div>
+                        </div>
+                        
+                        <!-- Employer Specific Fields -->
+                        <div id="employerFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="registerCompanyName">Company Name</label>
+                                <input type="text" id="registerCompanyName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerCompanyWebsite">Company Website (Optional)</label>
+                                <input type="url" id="registerCompanyWebsite" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label for="registerIndustry">Industry</label>
+                                <select id="registerIndustry">
+                                    <option value="">Select...</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Retail">Retail</option>
+                                    <option value="Manufacturing">Manufacturing</option>
+                                    <option value="Real Estate">Real Estate</option>
+                                    <option value="Hospitality">Hospitality</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerCompanySize">Company Size</label>
+                                <select id="registerCompanySize">
+                                    <option value="">Select...</option>
+                                    <option value="1-10">1-10 employees</option>
+                                    <option value="11-50">11-50 employees</option>
+                                    <option value="51-200">51-200 employees</option>
+                                    <option value="201-500">201-500 employees</option>
+                                    <option value="500+">500+ employees</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerCompanyDescription">Company Description (Optional)</label>
+                                <textarea id="registerCompanyDescription" rows="3" placeholder="Brief description of your company..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerCalendlyLink">Calendly Link (Optional)</label>
+                                <input type="url" id="registerCalendlyLink" placeholder="https://calendly.com/your-link">
+                                <small style="color: var(--text-secondary); font-size: 0.875rem;">Used for scheduling interviews with accepted applicants</small>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        <p class="auth-switch">Already have an account? <a href="#" onclick="showLogin(); return false;">Login</a></p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Job Seeker Dashboard -->
+            <div id="jobSeekerDashboard" class="page" style="display: none;">
+                <div class="container">
+                    <h2>Available Jobs</h2>
+                    
+                    <!-- Search and Filter Section -->
+                    <div class="search-filter-section">
+                        <div class="search-box">
+                            <input type="text" id="jobSearchInput" placeholder="Search jobs by title, company, or keywords..." onkeyup="filterJobs()">
+                            <button class="btn btn-primary" onclick="filterJobs()">🔍 Search</button>
+                        </div>
+                        <div class="filter-controls">
+                            <select id="filterLocation" onchange="filterJobs()">
+                                <option value="">All Locations</option>
+                            </select>
+                            <select id="filterType" onchange="filterJobs()">
+                                <option value="">All Job Types</option>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Remote">Remote</option>
+                            </select>
+                            <select id="filterSalary" onchange="filterJobs()">
+                                <option value="">All Salaries</option>
+                                <option value="0-30000">$0 - $30,000</option>
+                                <option value="30000-50000">$30,000 - $50,000</option>
+                                <option value="50000-70000">$50,000 - $70,000</option>
+                                <option value="70000+">$70,000+</option>
+                            </select>
+                            <button class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                        </div>
+                    </div>
+                    
+                    <div id="jobsCount" class="jobs-count"></div>
+                    <div id="jobsList" class="jobs-grid"></div>
+                </div>
+            </div>
+
+            <!-- Employer Dashboard -->
+            <div id="employerDashboard" class="page" style="display: none;">
+                <div class="container">
+                    <h2>My Job Postings</h2>
+                    <button class="btn btn-primary" onclick="showPostJobForm()">Post New Job</button>
+                    <div id="myJobsList" class="jobs-grid"></div>
+                </div>
+            </div>
+
+            <!-- Edit Job Modal -->
+            <div id="editJobModal" class="modal" style="display: none;">
+                <div class="modal-content" style="max-width: 700px;">
+                    <span class="close" onclick="closeEditJobModal()">&times;</span>
+                    <h2>Edit Job Posting</h2>
+                    <form id="editJobForm" class="job-form">
+                        <div class="form-group">
+                            <label for="editJobTitle">Job Title</label>
+                            <input type="text" id="editJobTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editJobCompany">Company Name</label>
+                            <input type="text" id="editJobCompany" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editJobLocation">Location</label>
+                            <input type="text" id="editJobLocation" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editJobType">Job Type</label>
+                            <select id="editJobType" required>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Remote">Remote</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editJobSalary">Salary</label>
+                            <input type="text" id="editJobSalary" placeholder="e.g., $50,000 - $70,000">
+                        </div>
+                        <div class="form-group">
+                            <label for="editJobDescription">Job Description</label>
+                            <textarea id="editJobDescription" rows="6" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editJobRequirements">Requirements (one per line)</label>
+                            <textarea id="editJobRequirements" rows="4" placeholder="e.g., Bachelor's degree&#10;3+ years experience&#10;JavaScript proficiency"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editJobStatus">Status</label>
+                            <select id="editJobStatus" required>
+                                <option value="active">Active</option>
+                                <option value="closed">Closed</option>
+                                <option value="filled">Filled</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Job</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeEditJobModal()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Post Job Form -->
+            <div id="postJobPage" class="page" style="display: none;">
+                <div class="container">
+                    <h2>Post a New Job</h2>
+                    <form id="postJobForm" class="job-form">
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title</label>
+                            <input type="text" id="jobTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobCompany">Company Name</label>
+                            <input type="text" id="jobCompany" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobLocation">Location</label>
+                            <input type="text" id="jobLocation" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobType">Job Type</label>
+                            <select id="jobType" required>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Remote">Remote</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobSalary">Salary</label>
+                            <input type="text" id="jobSalary" placeholder="e.g., $50,000 - $70,000">
+                        </div>
+                        <div class="form-group">
+                            <label for="jobDescription">Job Description</label>
+                            <textarea id="jobDescription" rows="6" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="jobRequirements">Requirements (one per line)</label>
+                            <textarea id="jobRequirements" rows="4" placeholder="e.g., Bachelor's degree&#10;3+ years experience&#10;JavaScript proficiency"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post Job</button>
+                        <button type="button" class="btn btn-secondary" onclick="showEmployerDashboard()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Job Details Modal -->
+            <div id="jobModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close" onclick="closeJobModal()">&times;</span>
+                    <div id="jobModalContent"></div>
+                </div>
+            </div>
+
+            <!-- My Applications Page -->
+            <div id="myApplicationsPage" class="page" style="display: none;">
+                <div class="container">
+                    <h2>My Applications</h2>
+                    <div id="myApplicationsList" class="applications-list"></div>
+                </div>
+            </div>
+
+            <!-- Job Applications (for employers) -->
+            <div id="jobApplicationsPage" class="page" style="display: none;">
+                <div class="container">
+                    <button class="btn btn-secondary" onclick="loadEmployerDashboard()" style="margin-bottom: 1rem;">← Back to My Jobs</button>
+                    <h2>Job Applications</h2>
+                    <div id="jobApplicationsList" class="applications-list"></div>
+                </div>
+            </div>
+
+            <!-- Admin Dashboard -->
+            <div id="adminDashboardPage" class="page" style="display: none;">
+                <div class="container">
+                    <h2>Admin Dashboard</h2>
+                    
+                    <!-- Statistics Cards -->
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <h3 id="adminTotalJobs">0</h3>
+                            <p>Total Jobs Posted</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="adminTotalApplications">0</h3>
+                            <p>Total Applications</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="adminTotalEmployers">0</h3>
+                            <p>Total Employers</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="adminTotalJobSeekers">0</h3>
+                            <p>Total Job Seekers</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Jobs Table -->
+                    <div class="dashboard-section">
+                        <h3>All Job Postings</h3>
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <th>Company</th>
+                                        <th>Location</th>
+                                        <th>Employer</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Applications</th>
+                                        <th>Pending</th>
+                                        <th>Accepted</th>
+                                        <th>Posted Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminJobsTable">
+                                    <tr>
+                                        <td colspan="10" style="text-align: center; padding: 2rem;">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Profile Page -->
+            <div id="editProfilePage" class="page" style="display: none;">
+                <div class="container">
+                    <h2>Edit Profile</h2>
+                    <form id="editProfileForm" class="job-form">
+                        <div class="form-group">
+                            <label for="editName">Full Name</label>
+                            <input type="text" id="editName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input type="email" id="editEmail" required readonly style="background-color: var(--bg-color);">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPhone">Phone</label>
+                            <input type="tel" id="editPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLocation">Location/Address</label>
+                            <input type="text" id="editLocation" required>
+                        </div>
+                        
+                        <!-- Job Seeker Fields -->
+                        <div id="editJobSeekerFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="editEducation">Education Level</label>
+                                <select id="editEducation">
+                                    <option value="">Select...</option>
+                                    <option value="High School">High School</option>
+                                    <option value="Associate Degree">Associate Degree</option>
+                                    <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                    <option value="Master's Degree">Master's Degree</option>
+                                    <option value="PhD">PhD</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editExperience">Years of Experience</label>
+                                <select id="editExperience">
+                                    <option value="">Select...</option>
+                                    <option value="0-1">0-1 years</option>
+                                    <option value="2-3">2-3 years</option>
+                                    <option value="4-5">4-5 years</option>
+                                    <option value="6-10">6-10 years</option>
+                                    <option value="10+">10+ years</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editSkills">Skills (comma-separated)</label>
+                                <input type="text" id="editSkills" placeholder="e.g., JavaScript, Python, Project Management">
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmploymentStatus">Current Employment Status</label>
+                                <select id="editEmploymentStatus">
+                                    <option value="">Select...</option>
+                                    <option value="Unemployed">Unemployed</option>
+                                    <option value="Employed - Looking">Employed - Looking for opportunities</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Freelancer">Freelancer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editResume">Resume/CV Link (Optional)</label>
+                                <input type="url" id="editResume" placeholder="https://...">
+                            </div>
+                        </div>
+                        
+                        <!-- Employer Fields -->
+                        <div id="editEmployerFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="editCompanyName">Company Name</label>
+                                <input type="text" id="editCompanyName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editCompanyWebsite">Company Website (Optional)</label>
+                                <input type="url" id="editCompanyWebsite" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label for="editIndustry">Industry</label>
+                                <select id="editIndustry">
+                                    <option value="">Select...</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Healthcare">Healthcare</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Retail">Retail</option>
+                                    <option value="Manufacturing">Manufacturing</option>
+                                    <option value="Real Estate">Real Estate</option>
+                                    <option value="Hospitality">Hospitality</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editCompanySize">Company Size</label>
+                                <select id="editCompanySize">
+                                    <option value="">Select...</option>
+                                    <option value="1-10">1-10 employees</option>
+                                    <option value="11-50">11-50 employees</option>
+                                    <option value="51-200">51-200 employees</option>
+                                    <option value="201-500">201-500 employees</option>
+                                    <option value="500+">500+ employees</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editCompanyDescription">Company Description (Optional)</label>
+                                <textarea id="editCompanyDescription" rows="3" placeholder="Brief description of your company..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="editCalendlyLink">Calendly Link (Optional)</label>
+                                <input type="url" id="editCalendlyLink" placeholder="https://calendly.com/your-link">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadHomePage()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <!-- Email Sender Modal -->
+        <div id="emailModal" class="modal" style="display: none;">
+            <div class="modal-content" style="max-width: 600px;">
+                <span class="close" onclick="closeEmailModal()">&times;</span>
+                <h2>Send Interview Invitation</h2>
+                <form id="emailForm">
+                    <div class="form-group">
+                        <label for="emailTo">To</label>
+                        <input type="email" id="emailTo" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailSubject">Subject</label>
+                        <input type="text" id="emailSubject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailCalendlyLink">Calendly Link</label>
+                        <input type="url" id="emailCalendlyLink" placeholder="https://calendly.com/your-link" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailBody">Message</label>
+                        <textarea id="emailBody" rows="10" required></textarea>
+                    </div>
+                    <div class="form-group" style="display: flex; gap: 0.5rem;">
+                        <button type="button" class="btn btn-secondary" onclick="closeEmailModal()">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="openEmailClient()">Open Email Client</button>
+                        <button type="button" class="btn btn-success" onclick="copyEmailToClipboard()">Copy to Clipboard</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
